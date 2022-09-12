@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>{{ book.title }}</h1>
+
+<p><strong>Author:</strong> <a href="{% url 'author_detail' pk=obj.id %}">{{ book.author.first_name }} {{ book.author.last_name }}</a></p>
+<p><strong>Description:</strong> {{ book.description }}</p>
+<p><strong>Rating:</strong> {{ book.rating }}</p>
+<p><strong>Available:</strong> {{ book.available }}</p>
+
+<p class="price">${{ book.price }}</p>
+<form action="{% url "cart/cart_add" book.id %}" method="post">
+    {{ cart_product_form }}
+    {% csrf_token %}
+    <input type="submit" value="Add to cart">
+</form>
+
+{% endblock %}

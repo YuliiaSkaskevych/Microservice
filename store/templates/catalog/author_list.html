@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>List of authors:</h1>
+
+{% if author_list %}
+  <ul>
+
+  {% for author in author_list %}
+    <li>
+      <a href="{% url 'author_detail' pk=obj.id %}">
+      {{ author.first_name }} ({{author.last_name}} - {% if author.deathdate %}{{author.deathdate}}{% endif %})
+      </a>
+    </li>
+  {% endfor %}
+
+ </ul>
+{% else %}
+  <p>Unfortunately, there are no authors</p>
+{% endif %}
+
+
+
+{% endblock %}

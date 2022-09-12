@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Home page online bookstore "Pineapple"</h1>
+
+<p>Welcome<em>Pineapple</em>!</p>
+
+<h2>Content</h2>
+
+<p>There are many interesting in our store:</p>
+<ul>
+<li><strong>All books:</strong> {{ num_books }}</li>
+<li><strong>Available books:</strong> {{ num_instances_available }}</li>
+<li><strong>Authors:</strong> {{ num_authors }}</li>
+</ul>
+
+
+{% endblock %}

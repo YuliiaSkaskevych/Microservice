@@ -1,13 +1,8 @@
 from django.shortcuts import render
-
 from django.contrib.auth import get_user_model, authenticate, login
 from django.urls import reverse_lazy
 from django.views import generic
-
-from .forms import RegistrationForm, RegisterForm
-
-from django.views.generic import CreateView, DetailView, UpdateView
-
+from .forms import RegisterForm
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -20,7 +15,7 @@ def home(request):
 
 
 class RegisterFormView(generic.FormView):
-    template_name = 'authorization/register.html'
+    template_name = 'registration/register.html'
     form_class = RegisterForm
     success_url = reverse_lazy("index")
 
@@ -34,7 +29,7 @@ class RegisterFormView(generic.FormView):
 class UpdateProfile(LoginRequiredMixin, SuccessMessageMixin, generic.UpdateView):
     model = User
     fields = ['username', "first_name", "last_name", "email"]
-    template_name = 'authorization/update_profile.html'
+    template_name = 'registration/update_profile.html'
     success_url = reverse_lazy("profile")
     success_message = "Profile updated successfully!"
 
@@ -45,7 +40,7 @@ class UpdateProfile(LoginRequiredMixin, SuccessMessageMixin, generic.UpdateView)
 
 class UserProfile(LoginRequiredMixin, generic.DetailView):
     model = User
-    template_name = "authorization/profile.html"
+    template_name = "registration/profile.html"
 
     def get_object(self, queryset=None):
         user = self.request.user

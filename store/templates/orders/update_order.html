@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <title>Upload order</title>
+</head>
+<body>
+<h1>Upload order</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <p>Are you sure you want to update the order?</p>
+    <input type="submit" value="Update"><ul><a href="{% url 'my_orders' %}">Come back</a></ul>
+</form>
+</body>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>My orders:</h1>
+
+{% if order_list %}
+  <ul>
+  {% for order in order_list %}
+    <li>
+        <p>ID order: <a href="{% url 'user_order' pk=order.id %}">{{ order.id}}</a></p>
+      <p>Status paid: {{ order.paid }}</p>
+    </li>
+  {% endfor %}
+
+ </ul>
+{% else %}
+  <p>You dont have orders</p>
+{% endif %}
+
+{% endblock %}

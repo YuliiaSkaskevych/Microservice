@@ -3,6 +3,8 @@
 {% block content %}
 
   <p>Username: {{ object.username }}</p>
+    <p>First name: {{ object.first_name }}</p>
+    <p>Last name: {{ object.last_name }}</p>
   <p>Email: {{ object.email }}</p>
     <ul><a href="{% url "update_profile" %}">Update my profile</a></ul>
 

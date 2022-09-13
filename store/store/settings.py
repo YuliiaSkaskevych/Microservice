@@ -35,9 +35,6 @@ ALLOWED_HOSTS = [
 INTERNAL_IPS = [
     '127.0.0.1',
 ]
-
-
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -51,6 +48,7 @@ INSTALLED_APPS = [
     'authorization',
     'cart',
     'orders',
+    'django_filters',
 ]
 
 if DEBUG:
@@ -74,8 +72,7 @@ ROOT_URLCONF = 'store.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -152,5 +149,14 @@ MESSAGE_TAGS = {
     message_constants.ERROR: 'danger',
 }
 
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
 
 CART_SESSION_ID = 'cart'

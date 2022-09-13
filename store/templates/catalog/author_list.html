@@ -9,10 +9,11 @@
 
   {% for author in author_list %}
     <li>
-      <a href="{% url 'author_detail' pk=obj.id %}">
-      {{ author.first_name }} ({{author.last_name}} - {% if author.deathdate %}{{author.deathdate}}{% endif %})
+      <a href="{% url 'author_detail' pk=author.id %}">
+      {{ author.name }} {{author.surname}}
       </a>
     </li>
+       Count of books: {{ author.book_set.count }}
   {% endfor %}
 
  </ul>

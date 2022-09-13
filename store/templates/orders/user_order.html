@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Order # {{ orderitem.order.id }}</h1>
+<li><a href="{% url 'delete_order' pk=orderitem.order.id %}">Cancel this order</a></li>
+    <li><a href="{% url 'update_order' pk=orderitem.order.id %}">Update this order</a></li>
+<p>Details:</p>
+    {{ orderitem.book }}
+    {{ orderitem.price }}
+    <p>Total cost: {{ orderitem.order.get_total_cost }}</p>
+    <h2>Ordered by {{ orderitem.order.first_name }} {{ orderitem.order.last_name }}</h2>
+    <p>Email: {{ orderitem.order.email }}</p>
+    <p>Address: {{ orderitem.order.address }} | {{ orderitem.order.city }}</p>
+    <p>Created: {{ orderitem.order.created }}</p>
+    <p>Paid: {{ orderitem.order.paid }}</p>
+{% endblock %}

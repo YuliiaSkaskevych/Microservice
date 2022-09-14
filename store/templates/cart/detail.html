@@ -3,41 +3,37 @@
 {% block title %}
     Cart
 {% endblock %}
+
 {% block content %}
-    <h1>Your cart</h1>
-    <table class="cart">
-        <thead>
+    <table class="table_cart">
+    <caption>My Cart</caption>
         <tr>
             <th>Book</th>
             <th>Quantity</th>
-            <th>Remove</th>
             <th>Unit price</th>
             <th>Price</th>
+            <th>Remove</th>
         </tr>
-        </thead>
-        <tbody>
         {% for item in cart %}
             {% with book=item.book %}
                 <tr>
                     <td>{{ book.title }}</td>
                     <td>{{ item.quantity }}</td>
-                    <td><a href="{% url "cart_remove" book.id%}">Delete</a></td>
                     <td class="num">${{ item.price }}</td>
                     <td class="num">${{ item.total_price }}</td>
+                    <td><a href="{% url "cart_remove" book.id%}">Delete</a></td>
                 </tr>
             {% endwith %}
         {% endfor %}
-        <tr class="total">
+        <tr>
             <td>Total</td>
-            <td colspan="4"></td>
+            <td colspan="2"></td>
             <td class="num">${{ cart.get_total_price }}</td>
         </tr>
-        </tbody>
     </table>
-
-        <ul><a href="{% url "books" %}" class="button light">Continue</a>
-        <a href="{% url "order_create" %}" class="button">Ordered</a>
-    </ul>
+<h2>  </h2>
+    <button class="button"><a href="{% url "books" %}" class="button light">Continue</a></button>
+        <button class="button"><a href="{% url "order_create" %}" class="button">Ordered</a></button>
 
 
 {% endblock %}

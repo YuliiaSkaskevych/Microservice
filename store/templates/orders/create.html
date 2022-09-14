@@ -18,7 +18,7 @@
     </div>
     <form action="." method="post" class="order-form">
         {{ form.as_p }}
-        <p><input type="submit" value="Place order"></p>
+        <p><button class="button" type="submit" value="To order">To order</button></p>
         {% csrf_token %}
     </form>
 {% endblock %}

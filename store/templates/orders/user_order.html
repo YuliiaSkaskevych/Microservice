@@ -2,9 +2,7 @@
 
 {% block content %}
 
-<h1>Order # {{ orderitem.order.id }}</h1>
-<li><a href="{% url 'delete_order' pk=orderitem.order.id %}">Cancel this order</a></li>
-    <li><a href="{% url 'update_order' pk=orderitem.order.id %}">Update this order</a></li>
+<h1>Order # {{ orderitem.id }}</h1>
 <p>Details:</p>
     {{ orderitem.book }}
     {{ orderitem.price }}

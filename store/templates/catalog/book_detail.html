@@ -8,16 +8,18 @@
 <p><strong>Rating:</strong> {{ book.rating }}</p>
 <p><strong>Available:</strong> {{ book.available }}</p>
 
- {% if book.available %} }}
-  {% if user.is_authenticated %}
+{% if user.is_authenticated %}
+ {% if book.available %}
 <p class="price">${{ book.price }}</p>
 <form action="{% url "cart_add" book.id %}" method="post">
     {{ cart_product_form }}
     {% csrf_token %}
-    <button type="submit" value="Add to cart">Add to cart</button>
+    <button class="btn btn-primary" type="submit" value="Add to cart"><span class="glyphicon glyphicon-plus"></span>Add to cart</button>
 </form>
       {% else %}
-      If you want to buy books, please, log in
+     Unfortunately, this book is sold
 {% endif %}
+    {% else %}
+    If you want to buy books, please, log in
     {% endif %}
 {% endblock %}

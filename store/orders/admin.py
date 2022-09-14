@@ -13,6 +13,12 @@ class OrderAdmin(admin.ModelAdmin):
                     'created', 'updated']
     list_filter = ['paid', 'created', 'updated']
     inlines = [OrderItemInline]
+    actions = ["change_status_to_paid"]
+
+    def change_status_to_paid(self, request, queryset):
+        queryset.update(paid=True)
+
+    change_status_to_paid.short_description = "Status: paid"
 
 
 admin.site.register(Order, OrderAdmin)

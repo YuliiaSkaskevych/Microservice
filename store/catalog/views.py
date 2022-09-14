@@ -1,11 +1,15 @@
 import django_filters
+from django.contrib import messages
 from django.core.paginator import EmptyPage
-from django.http import Http404
+from django.http import JsonResponse, Http404
 from django.shortcuts import render, get_object_or_404
+from django.template.loader import render_to_string
 from django.views import generic
 from cart.forms import CartAddProductForm
+from .forms import ContactForm
 from .mixins import CacheMixin
 from .models import Author, Book
+from .tasks import contact_us
 
 
 class ObjFilter(django_filters.FilterSet):
@@ -65,3 +69,24 @@ class AuthorListView(generic.ListView, CacheMixin):
 
 class AuthorDetailView(generic.DetailView, CacheMixin):
     model = Author
+
+
+def contact(request):
+    data = dict()
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            data['form_is_valid'] = True
+            subject = form.cleaned_data['subject']
+            from_email = form.cleaned_data['from_email']
+            message = form.cleaned_data['message']
+            messages.add_message(request, messages.SUCCESS, 'Message was sent successfully!')
+            contact_us.delay(subject, message, from_email)
+            data['contact_form'] = render_to_string('base.html')
+        else:
+            data['form_is_valid'] = False
+    else:
+        form = ContactForm()
+    context = {'form': form}
+    data['html_form'] = render_to_string('catalog/contact.html', context, request=request)
+    return JsonResponse(data)

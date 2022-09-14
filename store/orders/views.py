@@ -1,9 +1,7 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import render
-from django.urls import reverse_lazy
 from django.views import generic
-
+from .tasks import send_mail_to_admin, send_mail_to_owner
 from .models import OrderItem, Order
 from .forms import OrderCreateForm
 from cart.cart import Cart
@@ -22,6 +20,10 @@ def order_create(request):
                                          price=item['price'],
                                          quantity=item['quantity'])
             messages.add_message(request, messages.SUCCESS, 'Order was created successfully!')
+            text = f'Order {order.pk} was created by {order.owner}'
+            text1 = f'Your order {order.pk} was created successfully!'
+            send_mail_to_admin.delay(text, order.email)
+            send_mail_to_owner.delay(text1, order.email)
             cart.clear()
             return render(request, 'orders/created.html',
                           {'order': order})
@@ -31,8 +33,9 @@ def order_create(request):
                   {'cart': cart, 'form': form})
 
 
-class OrderListView(LoginRequiredMixin, generic.ListView):
+class OrderListView(PermissionRequiredMixin, generic.ListView):
     model = Order
+    permission_required = 'can_mark_returned'
     paginate_by = 5
     template_name = 'orders/orders_list.html'
 
@@ -44,18 +47,3 @@ def user_order(request, pk):
         request,
         'orders/user_order.html',
         {"orderitem": orderitem})
-
-
-class OrderDeleteView(LoginRequiredMixin, SuccessMessageMixin, generic.DeleteView):
-    model = Order
-    template_name = 'orders/delete_order.html'
-    success_message = "Order was canceled successfully!"
-    success_url = reverse_lazy('my_orders')
-
-
-class OrderUpdateView(LoginRequiredMixin, SuccessMessageMixin, generic.UpdateView):
-    model = Order
-    fields = ['first_name', 'last_name', 'email', 'address', 'city']
-    template_name = 'orders/update_order.html'
-    success_message = "Order was update successfully!"
-    success_url = reverse_lazy('my_orders')

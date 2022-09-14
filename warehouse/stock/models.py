@@ -4,7 +4,6 @@ from django.db import models
 class Author(models.Model):
     name = models.CharField(max_length=100)
     surname = models.CharField(max_length=100)
-    birthdate = models.DateField()
     country = models.CharField(max_length=500)
 
     class Meta:
@@ -15,10 +14,12 @@ class Author(models.Model):
 
 
 class Book(models.Model):
-    title = models.CharField('Title', max_length=100)
-    price = models.DecimalField('Price', decimal_places=2, max_digits=10)
+    title = models.CharField(max_length=200)
+    price = models.DecimalField(max_digits=5, decimal_places=2)
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
-    available = models.BooleanField('Available', default=True)
+    pubdate = models.DateTimeField(auto_now_add=True)
+    rating = models.FloatField('Rating')
+    available = models.BooleanField(default=True)
 
     def _str_(self):
         return self.title

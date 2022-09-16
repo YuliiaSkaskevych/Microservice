@@ -1,12 +1,11 @@
 from django.contrib import admin
 
-from .models import Author, Book, BookInstance, Publisher
+from .models import Author, Book, BookItem
 
 
-class BookInstanceInline(admin.TabularInline):
-    model = BookInstance
+class BookItemInline(admin.TabularInline):
+    model = BookItem
     fk_name = "title"
-    fk_name2 = "publisher"
 
 
 @admin.register(Author)
@@ -20,16 +19,10 @@ class AuthorAdmin(admin.ModelAdmin):
 class BookAdmin(admin.ModelAdmin):
     fields = ["title", "price", "author"]
     list_filter = ["price"]
-    inlines = [BookInstanceInline]
+    inlines = [BookItemInline]
 
 
-@admin.register(Publisher)
-class PublisherAdmin(admin.ModelAdmin):
-    fields = ["publisher", "city"]
-    list_filter = ["publisher"]
-
-
-@admin.register(BookInstance)
-class BookInstanceAdmin(admin.ModelAdmin):
-    fields = ["title", "isbn", "publisher", "date_of_order", "status"]
+@admin.register(BookItem)
+class BookItemAdmin(admin.ModelAdmin):
+    fields = ["title", "isbn", "date_of_order"]
     list_filter = ["isbn"]

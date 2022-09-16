@@ -1,4 +1,4 @@
-from .models import Author, Publisher, BookInstance, Book
+from .models import Author, BookItem, Book
 
 from rest_framework import serializers
 
@@ -15,13 +15,7 @@ class BookSerializer(serializers.ModelSerializer):
         fields = ["title", "price", "author"]
 
 
-class PublisherSerializer(serializers.ModelSerializer):
+class BookItemSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Publisher
-        fields = ["publisher", "city"]
-
-
-class BookInstanceSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = BookInstance
-        fields = ["title", "publisher", "isbn", "date_of_order", "status"]
+        model = BookItem
+        fields = ["title", "publisher", "isbn", "date_of_order"]

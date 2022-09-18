@@ -10,6 +10,8 @@ services:
       - ./store:/app
     networks:
       - store_db_network
+    expose:
+      - 8000
     ports:
       - "8000:8000"
     depends_on:
@@ -36,6 +38,8 @@ services:
       - ./warehouse:/app
     networks:
       - warehouse_db_network
+    expose:
+      - 8001
     ports:
       - "8001:8000"
     depends_on:
@@ -94,6 +98,38 @@ services:
     depends_on:
       - mailhog
 
+  celery:
+    container_name: celery
+    build:
+      context: .
+      dockerfile: docker/store/Dockerfile
+      args:
+        DJANGO_ENV: 'dev'
+    networks:
+      - webnet
+      - nginx_network
+    expose:
+      - 8000
+    volumes:
+      - ./store:/code
+      - ./config:/config
+    environment:
+      C_FORCE_ROOT: 'true'
+      DATABASE_URL: 'postgresql://postgres:postgdb@db:5432/dbstore'
+      DATABASE_HOST: 'db'
+      DATABASE_PORT: '5432'
+      REDIS_URL: 'redis://redis:6379/0'
+      REDIS_CACHE: 'redis:6379'
+      AMQP_URL: 'amqp://rabbitmq:5672'
+      CHECK_WEB: 'true'
+      WEB_HOST: 'store'
+      WEB_PORT: '8000'
+    depends_on:
+      - redis
+      - db_store
+    restart: on-failure
+    command: celery -A store worker -B -l INFO
+
   redis:
     image: bitnami/redis:latest
     environment:
@@ -102,12 +138,22 @@ services:
       - "6379:6379"
 
   mailhog:
-    image: mailhog/mailhog
-    logging:
-      driver: 'none'
-    ports:
-      - "1025:1025"
-      - "8025:8025"
+    container_name: mailhog
+    image: mailhog/mailhog:latest
+    command: [ "-smtp-bind-addr", "0.0.0.0:25" ]
+    user: root
+    restart: on-failure
+    networks:
+      - webnet
+      - nginx_network
+    expose:
+      - 25
+      - 8025
+    healthcheck:
+      test: [ "CMD", "echo", "|", "telnet", "127.0.0.1 25" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   rabbitmq:
     image: rabbitmq:3-management-alpine
@@ -153,6 +199,7 @@ services:
     networks:
       - postgres
     restart: unless-stopped
+
 
 networks:
   store_db_network:

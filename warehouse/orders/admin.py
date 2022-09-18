@@ -10,7 +10,7 @@ class OrderItemInline(admin.TabularInline):
 class OrderAdmin(admin.ModelAdmin):
     list_display = ['id', 'first_name', 'last_name', 'email',
                     'address', 'city', 'paid',
-                    'created', 'updated']
+                    'created', 'updated', 'status']
     list_filter = ['paid', 'created', 'updated']
     inlines = [OrderItemInline]
     actions = ["change_status_to_paid"]

@@ -1,0 +1,635 @@
+[
+    {
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$390000$jmHKI5cJh3AGLZ7Vk217iL$mFJRJzGRM3MvQNJUMhgzil1MRZAPgfp6lU33eCpv0Aw=",
+        "last_login": "2022-09-13T18:37:57.599Z",
+        "is_superuser": false,
+        "username": "admin",
+        "first_name": "",
+        "last_name": "",
+        "email": "skaskevich2000@gmail.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2022-09-13T18:37:56.794Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 2,
+    "fields": {
+        "password": "pbkdf2_sha256$390000$hbkd7GbpTrjef6w8cNM1eP$+KDUFX3ijnHSEIEqs+7h9l8BomdtKcYZjgt7m5JrJCw=",
+        "last_login": "2022-09-13T19:55:50.802Z",
+        "is_superuser": true,
+        "username": "yuliia",
+        "first_name": "",
+        "last_name": "",
+        "email": "admin@example.com",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2022-09-13T18:52:06.505Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 3,
+    "fields": {
+        "password": "pbkdf2_sha256$390000$jmHKI5cJh3AGLZ7Vk217iL$mFJRJzGRM3MvQNJUMhgzil1MRZAPgfp6lU33eCpv0Aw=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "Kate",
+        "first_name": "0",
+        "last_name": "0",
+        "email": "example1@gmail.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": null,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 4,
+    "fields": {
+        "password": "pbkdf2_sha256$390000$hbkd7GbpTrjef6w8cNM1eP$+KDUFX3ijnHSEIEqs+7h9l8BomdtKcYZjgt7m5JrJCw=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "Steve",
+        "first_name": "0",
+        "last_name": "0",
+        "email": "example2@gmail.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": null,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 5,
+    "fields": {
+        "password": "pbkdf2_sha256$390000$jmHKI5cJh3AGLZ7Vk217iL$mFJRJzGRM3MvQNJUMhgzil1MRZAPgfp6lU33eCpv0Aw=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "John",
+        "first_name": "0",
+        "last_name": "0",
+        "email": "example3@gmail.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": null,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 6,
+    "fields": {
+        "password": "pbkdf2_sha256$390000$hbkd7GbpTrjef6w8cNM1eP$+KDUFX3ijnHSEIEqs+7h9l8BomdtKcYZjgt7m5JrJCw=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "Lilit",
+        "first_name": "0",
+        "last_name": "0",
+        "email": "example4@gmail.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": null,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "catalog.author",
+    "pk": 1,
+    "fields": {
+        "name": "Terry",
+        "surname": "Pratchett",
+        "country": "The UK"
+    }
+},
+{
+    "model": "catalog.author",
+    "pk": 2,
+    "fields": {
+        "name": "Neil",
+        "surname": "Geiman",
+        "country": "Great Britain"
+    }
+},
+{
+    "model": "catalog.author",
+    "pk": 3,
+    "fields": {
+        "name": "Tess",
+        "surname": "Geritsen",
+        "country": "The USA"
+    }
+},
+{
+    "model": "catalog.author",
+    "pk": 4,
+    "fields": {
+        "name": "Steven",
+        "surname": "King",
+        "country": "Canada"
+    }
+},
+{
+    "model": "catalog.author",
+    "pk": 5,
+    "fields": {
+        "name": "Taras",
+        "surname": "Shevchenko",
+        "country": "Ukraine"
+    }
+},
+{
+    "model": "catalog.book",
+    "pk": 1,
+    "fields": {
+        "title": "Witches Abroad",
+        "price": "250.00",
+        "author": 1,
+        "pubdate": null,
+        "rating": 10.0,
+        "available": true
+    }
+},
+{
+    "model": "catalog.book",
+    "pk": 2,
+    "fields": {
+        "title": "Weird Sisters",
+        "price": "150.00",
+        "author": 1,
+        "pubdate": null,
+        "rating": 9.0,
+        "available": true
+    }
+},
+{
+    "model": "catalog.book",
+    "pk": 3,
+    "fields": {
+        "title": "American Gods",
+        "price": "300.00",
+        "author": 2,
+        "pubdate": null,
+        "rating": 8.0,
+        "available": true
+    }
+},
+{
+    "model": "catalog.book",
+    "pk": 4,
+    "fields": {
+        "title": "Good Omens",
+        "price": "175.00",
+        "author": 2,
+        "pubdate": null,
+        "rating": 10.0,
+        "available": true
+    }
+},
+{
+    "model": "catalog.book",
+    "pk": 5,
+    "fields": {
+        "title": "Assistent",
+        "price": "215.00",
+        "author": 3,
+        "pubdate": null,
+        "rating": 7.0,
+        "available": false
+    }
+},
+{
+    "model": "catalog.book",
+    "pk": 6,
+    "fields": {
+        "title": "It",
+        "price": "315.00",
+        "author": 4,
+        "pubdate": null,
+        "rating": 6.0,
+        "available": false
+    }
+},
+{
+    "model": "catalog.book",
+    "pk": 7,
+    "fields": {
+        "title": "Death and monks",
+        "price": "275.00",
+        "author": 3,
+        "pubdate": null,
+        "rating": 8.0,
+        "available": true
+    }
+},
+{
+    "model": "catalog.book",
+    "pk": 8,
+    "fields": {
+        "title": "Mr Mercedes",
+        "price": "165.00",
+        "author": 4,
+        "pubdate": null,
+        "rating": 7.0,
+        "available": true
+    }
+},
+{
+    "model": "catalog.book",
+    "pk": 9,
+    "fields": {
+        "title": "Kobzar",
+        "price": "200.00",
+        "author": 5,
+        "pubdate": null,
+        "rating": 9.0,
+        "available": true
+    }
+},
+{
+    "model": "catalog.book",
+    "pk": 10,
+    "fields": {
+        "title": "Mort",
+        "price": "350.00",
+        "author": 1,
+        "pubdate": null,
+        "rating": 9.0,
+        "available": true
+    }
+},
+    {
+    "model": "orders.order",
+    "pk": 5,
+    "fields": {
+        "owner": 5,
+        "first_name": "Tammy",
+        "last_name": "Ross",
+        "email": "johnsonbrandi@example.net",
+        "address": "225 Hoffman Fork Apt. 192\nNorth Jasonton, NM 76723",
+        "city": "Port Tanyahaven",
+        "created": "2022-09-18T12:29:05.567Z",
+        "updated": "2022-09-18T12:29:05.567Z",
+        "paid": true,
+        "status": "Received"
+    }
+},
+{
+    "model": "orders.order",
+    "pk": 6,
+    "fields": {
+        "owner": 2,
+        "first_name": "Lisa",
+        "last_name": "Moran",
+        "email": "nguzman@example.com",
+        "address": "79031 Smith Square Suite 496\nNorth Jason, NE 69868",
+        "city": "Raychester",
+        "created": "2022-09-18T12:29:05.567Z",
+        "updated": "2022-09-18T12:29:05.567Z",
+        "paid": true,
+        "status": "Received"
+    }
+},
+{
+    "model": "orders.order",
+    "pk": 7,
+    "fields": {
+        "owner": 3,
+        "first_name": "Haley",
+        "last_name": "Rodriguez",
+        "email": "julie04@example.com",
+        "address": "1186 Randall Crossroad Apt. 524\nNorth Sandramouth, GA 60835",
+        "city": "North Kayla",
+        "created": "2022-09-18T12:29:05.567Z",
+        "updated": "2022-09-18T12:29:05.567Z",
+        "paid": true,
+        "status": "Packed"
+    }
+},
+{
+    "model": "orders.order",
+    "pk": 8,
+    "fields": {
+        "owner": 1,
+        "first_name": "Paul",
+        "last_name": "Boyd",
+        "email": "lunamichael@example.com",
+        "address": "34192 Baker Via\nRichardborough, SD 49495",
+        "city": "Lawrenceberg",
+        "created": "2022-09-18T12:29:05.568Z",
+        "updated": "2022-09-18T12:29:05.568Z",
+        "paid": true,
+        "status": "Delivering"
+    }
+},
+{
+    "model": "orders.order",
+    "pk": 9,
+    "fields": {
+        "owner": 4,
+        "first_name": "Erica",
+        "last_name": "Solis",
+        "email": "roberto10@example.net",
+        "address": "6719 Davis Keys Suite 136\nSmithberg, IL 07916",
+        "city": "Port Johnathan",
+        "created": "2022-09-18T12:29:05.568Z",
+        "updated": "2022-09-18T12:29:05.568Z",
+        "paid": true,
+        "status": "Received"
+    }
+},
+{
+    "model": "orders.order",
+    "pk": 10,
+    "fields": {
+        "owner": 2,
+        "first_name": "Abigail",
+        "last_name": "Gonzalez",
+        "email": "ksmith@example.com",
+        "address": "036 Meagan Mountain\nEast Amy, UT 01107",
+        "city": "North Robert",
+        "created": "2022-09-18T12:29:05.568Z",
+        "updated": "2022-09-18T12:29:05.568Z",
+        "paid": true,
+        "status": "Received"
+    }
+},
+{
+    "model": "orders.order",
+    "pk": 11,
+    "fields": {
+        "owner": 5,
+        "first_name": "Christopher",
+        "last_name": "Turner",
+        "email": "garytaylor@example.org",
+        "address": "6174 Thompson Crescent Suite 699\nAbbottstad, LA 58986",
+        "city": "Davisside",
+        "created": "2022-09-18T12:29:05.568Z",
+        "updated": "2022-09-18T12:29:05.568Z",
+        "paid": true,
+        "status": "Packed"
+    }
+},
+{
+    "model": "orders.order",
+    "pk": 12,
+    "fields": {
+        "owner": 1,
+        "first_name": "Rebecca",
+        "last_name": "Chang",
+        "email": "thomaschristopher@example.com",
+        "address": "374 Jessica Meadow Suite 931\nJacksonmouth, TX 41794",
+        "city": "North Dylanton",
+        "created": "2022-09-18T12:29:05.568Z",
+        "updated": "2022-09-18T12:29:05.568Z",
+        "paid": true,
+        "status": "Packed"
+    }
+},
+{
+    "model": "orders.order",
+    "pk": 13,
+    "fields": {
+        "owner": 4,
+        "first_name": "Daniel",
+        "last_name": "Martinez",
+        "email": "robinsonwesley@example.com",
+        "address": "8319 Garza Inlet Suite 801\nNew Clifford, SC 27978",
+        "city": "Hollyfort",
+        "created": "2022-09-18T12:29:05.568Z",
+        "updated": "2022-09-18T12:29:05.568Z",
+        "paid": true,
+        "status": "Packed"
+    }
+},
+{
+    "model": "orders.order",
+    "pk": 14,
+    "fields": {
+        "owner": 5,
+        "first_name": "Larry",
+        "last_name": "Myers",
+        "email": "alexbryant@example.com",
+        "address": "98663 Johnson Streets Apt. 622\nMirandabury, HI 47003",
+        "city": "New Benjamin",
+        "created": "2022-09-18T12:29:05.568Z",
+        "updated": "2022-09-18T12:29:05.568Z",
+        "paid": true,
+        "status": "Received"
+    }
+},
+{
+    "model": "orders.orderitem",
+    "pk": 6,
+    "fields": {
+        "order": 10,
+        "book": 10,
+        "price": "369.00",
+        "quantity": 2
+    }
+},
+{
+    "model": "orders.orderitem",
+    "pk": 7,
+    "fields": {
+        "order": 10,
+        "book": 9,
+        "price": "262.00",
+        "quantity": 2
+    }
+},
+{
+    "model": "orders.orderitem",
+    "pk": 8,
+    "fields": {
+        "order": 10,
+        "book": 9,
+        "price": "369.00",
+        "quantity": 8
+    }
+},
+{
+    "model": "orders.orderitem",
+    "pk": 9,
+    "fields": {
+        "order": 6,
+        "book": 6,
+        "price": "338.00",
+        "quantity": 5
+    }
+},
+{
+    "model": "orders.orderitem",
+    "pk": 10,
+    "fields": {
+        "order": 14,
+        "book": 9,
+        "price": "227.00",
+        "quantity": 3
+    }
+},
+{
+    "model": "orders.orderitem",
+    "pk": 11,
+    "fields": {
+        "order": 14,
+        "book": 5,
+        "price": "372.00",
+        "quantity": 2
+    }
+},
+{
+    "model": "orders.orderitem",
+    "pk": 12,
+    "fields": {
+        "order": 6,
+        "book": 9,
+        "price": "305.00",
+        "quantity": 7
+    }
+},
+{
+    "model": "orders.orderitem",
+    "pk": 13,
+    "fields": {
+        "order": 13,
+        "book": 1,
+        "price": "242.00",
+        "quantity": 1
+    }
+},
+{
+    "model": "orders.orderitem",
+    "pk": 14,
+    "fields": {
+        "order": 12,
+        "book": 3,
+        "price": "375.00",
+        "quantity": 7
+    }
+},
+{
+    "model": "orders.orderitem",
+    "pk": 15,
+    "fields": {
+        "order": 8,
+        "book": 3,
+        "price": "318.00",
+        "quantity": 3
+    }
+},
+{
+    "model": "orders.orderitem",
+    "pk": 16,
+    "fields": {
+        "order": 13,
+        "book": 6,
+        "price": "365.00",
+        "quantity": 4
+    }
+},
+{
+    "model": "orders.orderitem",
+    "pk": 17,
+    "fields": {
+        "order": 6,
+        "book": 2,
+        "price": "238.00",
+        "quantity": 2
+    }
+},
+{
+    "model": "orders.orderitem",
+    "pk": 18,
+    "fields": {
+        "order": 9,
+        "book": 7,
+        "price": "257.00",
+        "quantity": 1
+    }
+},
+{
+    "model": "orders.orderitem",
+    "pk": 19,
+    "fields": {
+        "order": 9,
+        "book": 9,
+        "price": "273.00",
+        "quantity": 9
+    }
+},
+{
+    "model": "orders.orderitem",
+    "pk": 20,
+    "fields": {
+        "order": 6,
+        "book": 6,
+        "price": "348.00",
+        "quantity": 10
+    }
+},
+{
+    "model": "orders.orderitem",
+    "pk": 21,
+    "fields": {
+        "order": 5,
+        "book": 4,
+        "price": "266.00",
+        "quantity": 9
+    }
+},
+{
+    "model": "orders.orderitem",
+    "pk": 22,
+    "fields": {
+        "order": 8,
+        "book": 8,
+        "price": "252.00",
+        "quantity": 9
+    }
+},
+{
+    "model": "orders.orderitem",
+    "pk": 23,
+    "fields": {
+        "order": 12,
+        "book": 6,
+        "price": "230.00",
+        "quantity": 5
+    }
+},
+{
+    "model": "orders.orderitem",
+    "pk": 24,
+    "fields": {
+        "order": 14,
+        "book": 8,
+        "price": "354.00",
+        "quantity": 6
+    }
+},
+{
+    "model": "orders.orderitem",
+    "pk": 25,
+    "fields": {
+        "order": 12,
+        "book": 2,
+        "price": "275.00",
+        "quantity": 7
+    }
+}
+]

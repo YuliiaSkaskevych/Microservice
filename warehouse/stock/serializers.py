@@ -18,4 +18,4 @@ class BookSerializer(serializers.ModelSerializer):
 class BookItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = BookItem
-        fields = ["title", "publisher", "isbn", "date_of_order"]
+        fields = ["title", "isbn", "date_of_order"]

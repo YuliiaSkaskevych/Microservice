@@ -1,13 +1,12 @@
+import requests, json
 from celery import shared_task
 from django.core.mail import send_mail as django_send_mail
-
 from orders.models import Order
 
 
 @shared_task
 def send_mail_to_admin(text, email):
     django_send_mail("Notification", text, email, ['admin@example.com'])
-
 
 @shared_task
 def send_mail_to_owner(order_id):
@@ -19,3 +18,11 @@ def send_mail_to_owner(order_id):
                                  'admin@example.com',
                                  [order.email])
     return mail_sent
+
+
+@shared_task
+def send_to_api(title):
+    data = {"title": title}
+    data_json = json.dumps(data)
+    print(data_json)
+    requests.post('http://warehouse:8001/orders/', data_json)

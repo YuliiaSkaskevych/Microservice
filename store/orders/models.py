@@ -6,6 +6,18 @@ User = get_user_model()
 
 
 class Order(models.Model):
+    IN_PROGRESS = 'In_progress'
+    PACKED = 'Packed'
+    DELIVERING = 'Delivering'
+    RECEIVED = 'Received'
+
+    CHOICE_STATUS = {
+        (IN_PROGRESS, 'In_progress'),
+        (PACKED, 'Packed'),
+        (DELIVERING, 'Delivering'),
+        (RECEIVED, 'Received')
+    }
+
     owner = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
@@ -15,6 +27,7 @@ class Order(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     paid = models.BooleanField(default=False)
+    status = models.CharField('Status', choices=CHOICE_STATUS, max_length=30, default=IN_PROGRESS)
 
     class Meta:
         ordering = ('-created',)

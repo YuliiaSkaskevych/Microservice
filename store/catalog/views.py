@@ -1,4 +1,3 @@
-import django_filters
 from django.contrib import messages
 from django.core.paginator import EmptyPage
 from django.http import JsonResponse, Http404
@@ -6,16 +5,12 @@ from django.shortcuts import render, get_object_or_404
 from django.template.loader import render_to_string
 from django.views import generic
 from cart.forms import CartAddProductForm
-from .forms import ContactForm
+from .forms import ContactForm, BookFilter
 from .mixins import CacheMixin
 from .models import Author, Book
 from .tasks import contact_us
+from django_filters.views import FilterView
 
-
-class ObjFilter(django_filters.FilterSet):
-    class Meta:
-        model = Book
-        fields = ["title", "author", "price", "rating", "available"]
 
 
 def index(request):
@@ -29,21 +24,11 @@ def index(request):
                  'num_instances_available': num_books_available, 'num_authors': num_authors}, )
 
 
-class BookListView(generic.ListView, CacheMixin):
+class SearchResultsListView(FilterView):
     model = Book
-    paginate_by = 5
-
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        filter = ObjFilter(self.request.GET, queryset)
-        return filter.qs
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        queryset = self.get_queryset()
-        filter = ObjFilter(self.request.GET, queryset)
-        context["filter"] = filter
-        return context
+    context_object_name = 'book_list'
+    template_name = 'catalog/book_list.html'
+    filterset_class = BookFilter
 
 
 def book_detail(request, pk):
@@ -62,12 +47,12 @@ def book_detail(request, pk):
         raise Http404
 
 
-class AuthorListView(generic.ListView, CacheMixin):
+class AuthorListView(CacheMixin, generic.ListView):
     model = Author
     paginate_by = 5
 
 
-class AuthorDetailView(generic.DetailView, CacheMixin):
+class AuthorDetailView(CacheMixin, generic.DetailView):
     model = Author
 
 

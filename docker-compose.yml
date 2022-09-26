@@ -9,25 +9,26 @@ services:
     volumes:
       - ./store:/app
     networks:
-      - store_db_network
+      - timing
+      - entry
+      - main_network
     expose:
       - 8000
     ports:
       - "8000:8000"
     depends_on:
       - db_store
+      - redis
     environment:
       DB_NAME: "store"
       DB_USER: "postgres"
       DB_PASSWORD: "postgres"
       DB_HOST: "db_store"
       DB_PORT: "5432"
+      DJANGO_ENV: "dev"
     restart: on-failure
-    healthcheck:
-      test: ["CMD", "curl", "--fail", "http://0.0.0.0:8000/admin/login/"]
-      interval: 1m
-      timeout: 5s
-      retries: 2
+    command:
+      - sh /runserver.sh
 
   warehouse:
     container_name: warehouse
@@ -38,6 +39,9 @@ services:
       - ./warehouse:/app
     networks:
       - warehouse_db_network
+      - timing
+      - entry
+      - notifications
     expose:
       - 8001
     ports:
@@ -51,19 +55,16 @@ services:
       DB_HOST: "db_warehouse"
       DB_PORT: "5432"
     restart: on-failure
-    healthcheck:
-      test: ["CMD", "curl", "--fail", "http://0.0.0.0:8000/admin/login/"]
-      interval: 1m
-      timeout: 5s
-      retries: 2
+    command:
+      - sh /runserver.sh
 
   db_store:
     container_name: db_store
     image: postgres:14-alpine
     volumes:
-      - db_store_volume:/var/lib/postgresql/data
+      - db_store:/var/lib/postgresql/data
     networks:
-      - store_db_network
+      - main_network
     expose:
       - 5432
     restart: on-failure
@@ -76,7 +77,7 @@ services:
     container_name: db_warehouse
     image: postgres:14-alpine
     volumes:
-      - db_warehouse_volume:/var/lib/postgresql/data
+      - db_warehouse:/var/lib/postgresql/data
     networks:
       - warehouse_db_network
     expose:
@@ -87,27 +88,18 @@ services:
       POSTGRES_PASSWORD: 'postgres'
       POSTGRES_DB: 'warehouse'
 
-  nginx:
+  web:
     container_name: nginx
-    build:
-      context: .
-      dockerfile: ./docker/nginx/Dockerfile
+    image: nginx
     restart: on-failure
-    networks:
-      - nginx_network
     ports:
-      - 80:80
-      - 8001:8001
-      - 8025:8025
+      - "8080:80"
+    volumes:
+      - ./nginx/conf/custom.conf:/etc/nginx/conf.d/default.conf
     depends_on:
+      - mailhog
       - warehouse
       - store
-      - mailhog
-    healthcheck:
-      test: [ "CMD-SHELL", "ps ax", "|" ,"grep -v grep", "|" ,"grep nginx",  "||", "exit 1" ]
-      interval: 30s
-      timeout: 10s
-      retries: 3
 
 
   celery:
@@ -118,8 +110,9 @@ services:
       args:
         DJANGO_ENV: 'dev'
     networks:
-      - webnet
-      - nginx_network
+      - timing
+      - notifications
+      - main_network
     expose:
       - 8000
     volumes:
@@ -127,27 +120,31 @@ services:
       - ./config:/config
     environment:
       C_FORCE_ROOT: 'true'
-      DATABASE_URL: 'postgresql://postgres:postgdb@db:5432/dbstore'
-      DATABASE_HOST: 'db'
+      DATABASE_URL: 'postgresql://postgres:postgdb@db_store:5432/store'
+      DATABASE_HOST: 'db_store'
       DATABASE_PORT: '5432'
       REDIS_URL: 'redis://redis:6379/0'
       REDIS_CACHE: 'redis:6379'
       AMQP_URL: 'amqp://rabbitmq:5672'
-      CHECK_WEB: 'true'
-      WEB_HOST: 'store'
-      WEB_PORT: '8000'
+#      WEB_HOST: 'store'
+#      WEB_PORT: '8000'
     depends_on:
-      - redis
+      - rabbitmq
       - db_store
     restart: on-failure
     command: celery -A store worker -B -l INFO
 
   redis:
+    container_name: redis
     image: bitnami/redis:latest
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
-    ports:
-      - "6379:6379"
+    expose:
+      - 6379
+    networks:
+      - main_network
+    volumes:
+      - redis:/var/lib/redis/data
 
   mailhog:
     container_name: mailhog
@@ -156,67 +153,35 @@ services:
     user: root
     restart: on-failure
     networks:
-      - webnet
-      - nginx_network
+      - entry
+      - notifications
     expose:
       - 25
       - 8025
-    healthcheck:
-      test: [ "CMD", "echo", "|", "telnet", "127.0.0.1 25" ]
-      interval: 10s
-      timeout: 5s
-      retries: 5
 
   rabbitmq:
-    image: rabbitmq:3-management-alpine
     container_name: rabbitmq
-    ports:
-      - "5672:5672"
-      - "15672:15672"
+    image: rabbitmq:3-management-alpine
+    expose:
+      - 4369
+      - 5671
+      - 5672
+      - 15672
+      - 25672
     volumes:
-      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
-      - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
-
-  postgres:
-    container_name: postgres_container
-    image: postgres
-    environment:
-      POSTGRES_USER: 'admin'
-      POSTGRES_PASSWORD: 'Qwerty54321'
-      POSTGRES_DB: 'post_db'
-      PGDATA: /data/postgres
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres:/data/postgres
+      - rabbitmq_data:/var/lib/rabbitmq/
     networks:
-      - postgres
-    restart: on-failure
-    healthcheck:
-      test: [ "CMD", "pg_isready", "-U" ]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-
-  pgadmin:
-    container_name: pgadmin_container
-    image: dpage/pgadmin4
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@example.com
-      PGADMIN_DEFAULT_PASSWORD: 12345Qwerty
-    volumes:
-      - pgadmin:/var/lib/pgadmin
-    ports:
-      - "5050:80"
-    networks:
-      - postgres
-    restart: unless-stopped
-
+      - main_network
 
 networks:
-  store_db_network:
   warehouse_db_network:
+  timing:
+  entry:
+  notifications:
+  main_network:
 
 volumes:
-  db_store_volume:
-  db_warehouse_volume:
+  db_store:
+  db_warehouse:
+  redis:
+  rabbitmq_data:

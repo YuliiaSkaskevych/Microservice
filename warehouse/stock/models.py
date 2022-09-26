@@ -19,7 +19,6 @@ class Book(models.Model):
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     pubdate = models.DateTimeField(auto_now_add=True)
     rating = models.FloatField('Rating')
-    available = models.BooleanField(default=True)
 
     def _str_(self):
         return self.title

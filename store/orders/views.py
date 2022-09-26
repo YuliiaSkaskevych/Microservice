@@ -39,10 +39,14 @@ class OrderListView(PermissionRequiredMixin, generic.ListView):
     template_name = 'orders/orders_list.html'
 
 
-def user_order(request, pk):
-    """Information about entered book: author, store, publisher"""
-    orderitem = OrderItem.objects.select_related('order').get(order_id=pk)
-    return render(
-        request,
-        'orders/user_order.html',
-        {"orderitem": orderitem})
+class UserOrder(PermissionRequiredMixin, generic.ListView):
+    model = OrderItem
+    permission_required = 'can_mark_returned'
+    paginate_by = 5
+    template_name = 'orders/user_order.html'
+
+    def get_queryset(self):
+        return Order.objects.filter(
+            owner=self.request.user
+        )
+

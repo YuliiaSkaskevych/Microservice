@@ -3,7 +3,6 @@ from rest_framework import serializers
 
 
 class OrderItemSerializer(serializers.HyperlinkedModelSerializer):
-    order_item = serializers.ReadOnlyField(source='orderitem.order')
 
     class Meta:
         model = OrderItem

@@ -7,7 +7,7 @@ cmd="$*"
 
 postgres_ready () {
   # Check that postgres is up:
-  sh '/wait-for-command.sh' -t 5 -s 0 52 -c "curl db_shop:5432"
+  sh '/wait-for-command.sh' -t 5 -s 0 52 -c "curl db_store:5432"
 }
 
 # We need this line to make sure that this container is started

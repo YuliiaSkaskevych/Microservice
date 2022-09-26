@@ -19,7 +19,7 @@ def store_update():
     if response_author.status_code != 200:
         return
     response_data_author = response_author.json()
-    while 1:
+    while True:
         for counter, data in enumerate(response_data_author['results']):
             Author.objects.update_or_create(
                 id=data['id'],
@@ -39,13 +39,11 @@ def store_update():
 
     url = 'http://warehouse:8001/books/'
     print('Clearing data...')
-
     response_book = requests.get(url)
     if response_book.status_code != 200:
         return
     response_data_book = response_book.json()
     while True:
-
         for counter, data in enumerate(response_data_book['results']):
             book, created = Book.objects.update_or_create(
                 id=data['id'],
@@ -68,7 +66,6 @@ def store_update():
                 book.rating = data['rating']
                 book.author = Author.objects.get(id=data['author'])
                 book.save()
-
         if response_data_book['next']:
             response_data_book = requests.get(response_data_book['next']).json()
         else:

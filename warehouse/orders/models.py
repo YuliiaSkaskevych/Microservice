@@ -49,5 +49,5 @@ class OrderItem(models.Model):
 
 
 class OrderItemBookItem(models.Model):
-    order_item_id = models.ManyToManyField(OrderItem, on_delete=models.CASCADE)
+    order_item_id = models.ManyToManyField(OrderItem)
     book_item_id = models.ForeignKey(BookItem, on_delete=models.CASCADE)

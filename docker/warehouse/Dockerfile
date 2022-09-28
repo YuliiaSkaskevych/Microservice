@@ -14,4 +14,4 @@ RUN chmod +x /runserver.sh
 
 EXPOSE 8001
 
-CMD ["/runserver.sh"]
+CMD ["/runserver.sh", "python", "manage.py", "runserver", "0.0.0.0:8001"]

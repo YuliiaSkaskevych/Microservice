@@ -18,6 +18,7 @@ services:
       - "8000:8000"
     depends_on:
       - db_store
+      - nginx_network
       - redis
     environment:
       DB_NAME: "store"
@@ -39,6 +40,7 @@ services:
       - ./warehouse:/app
     networks:
       - warehouse_db_network
+      - nginx_network
       - timing
       - entry
       - notifications
@@ -90,6 +92,9 @@ services:
 
   nginx:
     container_name: nginx
+    build:
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
     restart: on-failure
     networks:
       - nginx_network
@@ -153,6 +158,11 @@ services:
     command: [ "-smtp-bind-addr", "0.0.0.0:25" ]
     user: root
     restart: on-failure
+    environment:
+      EMAIL_HOST: 'mailhog'
+      EMAIL_PORT: = '8025'
+      EMAIL_HOST_USER: "admin"
+      EMAIL_HOST_PASSWORD: "Qwerty12345"
     networks:
       - entry
       - notifications

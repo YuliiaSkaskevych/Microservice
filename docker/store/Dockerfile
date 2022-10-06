@@ -4,14 +4,15 @@ COPY ./store/requirements.txt /
 
 RUN pip install -r requirements.txt
 
-WORKDIR /app
+COPY ./docker/store/docker-entrypoint.sh ./docker/store/wait-for-command.sh /
+RUN chmod +x /docker-entrypoint.sh /wait-for-command.sh
 
 COPY ./store/ /app
 
-COPY ./docker/store/runserver.sh /
-
-RUN chmod +x /runserver.sh
+WORKDIR /app
 
 EXPOSE 8000
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
 
 CMD ["/runserver.sh", "python", "manage.py", "runserver", "0.0.0.0:8000"]

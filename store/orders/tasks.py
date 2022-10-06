@@ -25,4 +25,4 @@ def send_to_api(title):
     data = {"title": title}
     data_json = json.dumps(data)
     print(data_json)
-    requests.post('http://warehouse:8001/orders/', data_json)
+    requests.post('http://warehouse:8000/orders/', data_json)

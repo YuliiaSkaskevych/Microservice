@@ -13,7 +13,7 @@ def contact_us(subject, message, from_email):
 def store_update():
     print('Starting update from warehouse api for database')
     print('Getting data from api...')
-    url = 'http://warehouse:8001/authors/'
+    url = 'http://warehouse:8000/authors/'
     print('Clearing data...')
     response_author = requests.get(url)
     if response_author.status_code != 200:
@@ -37,7 +37,7 @@ def store_update():
         else:
             break
 
-    url = 'http://warehouse:8001/books/'
+    url = 'http://warehouse:8000/books/'
     print('Clearing data...')
     response_book = requests.get(url)
     if response_book.status_code != 200:

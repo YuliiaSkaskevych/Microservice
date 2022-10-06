@@ -9,9 +9,8 @@ services:
     volumes:
       - ./store:/app
     networks:
-      - timing
-      - entry
-      - main_network
+      - store_network
+      - nginx_network
     expose:
       - 8000
     ports:
@@ -28,8 +27,7 @@ services:
       DB_PORT: "5432"
       DJANGO_ENV: "dev"
     restart: on-failure
-    command:
-      - sh /runserver.sh
+
 
   warehouse:
     container_name: warehouse
@@ -39,15 +37,12 @@ services:
     volumes:
       - ./warehouse:/app
     networks:
-      - warehouse_db_network
+      - warehouse_network
       - nginx_network
-      - timing
-      - entry
-      - notifications
     expose:
-      - 8001
+      - 8000
     ports:
-      - "8001:8001"
+      - "8001:8000"
     depends_on:
       - db_warehouse
     environment:
@@ -57,8 +52,7 @@ services:
       DB_HOST: "db_warehouse"
       DB_PORT: "5432"
     restart: on-failure
-    command:
-      - sh /runserver.sh
+
 
   db_store:
     container_name: db_store
@@ -66,7 +60,8 @@ services:
     volumes:
       - db_store:/var/lib/postgresql/data
     networks:
-      - main_network
+      - store_network
+      - db_store
     expose:
       - 5432
     restart: on-failure
@@ -81,7 +76,8 @@ services:
     volumes:
       - db_warehouse:/var/lib/postgresql/data
     networks:
-      - warehouse_db_network
+      - warehouse_network
+      - db_warehouse
     expose:
       - 5432
     restart: on-failure
@@ -100,8 +96,9 @@ services:
       - nginx_network
     ports:
       - 80:80
-      - 8001:8001
+      - 81:81
       - 8025:8025
+      - 5555:5555
     depends_on:
       - warehouse
       - store
@@ -116,11 +113,12 @@ services:
       args:
         DJANGO_ENV: 'dev'
     networks:
-      - timing
-      - notifications
-      - main_network
-    expose:
-      - 8000
+      - store_network
+      - db_store
+      - db_warehouse
+      - warehouse_network
+    expose: [ ]
+    ports: [ ]
     volumes:
       - ./store:/code
       - ./config:/config
@@ -132,25 +130,25 @@ services:
       REDIS_URL: 'redis://redis:6379/0'
       REDIS_CACHE: 'redis:6379'
       AMQP_URL: 'amqp://rabbitmq:5672'
-#      WEB_HOST: 'store'
-#      WEB_PORT: '8000'
+      CHECK_WEB: 'true'
     depends_on:
-      - rabbitmq
+      - redis
       - db_store
+      - db_warehouse
     restart: on-failure
-    command: celery -A store worker -B -l INFO
+    command: celery -A core worker -B -l INFO
 
   redis:
     container_name: redis
-    image: bitnami/redis:latest
-    environment:
-      - ALLOW_EMPTY_PASSWORD=yes
+    image: redis:alpine
+    restart: on-failure
+    networks:
+      - store_network
     expose:
       - 6379
-    networks:
-      - main_network
     volumes:
       - redis:/var/lib/redis/data
+
 
   mailhog:
     container_name: mailhog
@@ -164,8 +162,8 @@ services:
       EMAIL_HOST_USER: "admin"
       EMAIL_HOST_PASSWORD: "Qwerty12345"
     networks:
-      - entry
-      - notifications
+      - store_network
+      - nginx_network
     expose:
       - 25
       - 8025
@@ -182,19 +180,17 @@ services:
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq/
     networks:
-      - main_network
+      - store_network
 
 networks:
-  warehouse_db_network:
-  store_db_network:
-  timing:
-  entry:
-  notifications:
-  main_network:
+  store_network:
+  warehouse_network:
+  db_store:
+  db_warehouse:
   nginx_network:
 
 volumes:
   db_store:
   db_warehouse:
-  redis:
   rabbitmq_data:
+  redis:
